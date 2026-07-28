@@ -10,7 +10,7 @@ receives a `FILE.UPLOADED` webhook (or a simulated curl payload), calls
 `POST /2.0/ai/extract_structured` with your Invoice metadata template, and
 attaches the result with `POST /2.0/files/:id/metadata/:scope/:template`.
 
-The companion repository to the tutorial is:
+This is the companion repository to the tutorial:
 **[Automate invoice intake with Box AI Extract](https://developer.box.com/tutorials/invoice-intake)**.
 
 ## What it does
