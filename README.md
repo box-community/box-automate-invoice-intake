@@ -181,7 +181,9 @@ before processing.
 2. `extract.py` calls Box AI with your Invoice metadata template so the
    response shape is consistent across vendor formats.
 3. `metadata.py` writes those values onto the file as an enterprise metadata
-   instance - searchable and visible in the Box UI.
+   instance - searchable and visible in the Box UI. On first run it creates
+   the instance; on `409 Conflict` (retest or duplicate webhook) it updates
+   with a JSON-Patch `add` for each returned field.
 4. Optionally, uncomment the `push_to_erp(...)` call in `app.py` to hand off
    structured totals to an ERP.
 
@@ -191,8 +193,9 @@ before processing.
 - Grant the Service Account only the folder access it needs (Editor on the
   inbox is enough for this sample).
 - Verify webhook signatures in production.
-- Make the handler idempotent for duplicate webhook deliveries (check whether
-  metadata already exists before extracting again).
+- The metadata write is safe to re-run: `metadata.py` upserts on `409`.
+  Optionally skip a second AI extract when an instance already exists if
+  you want to avoid duplicate extraction cost.
 
 ## Troubleshooting
 
@@ -201,9 +204,15 @@ before processing.
 | `unauthorized_client` | Authorize the app in the Admin Console (Developer Console > Authorization > Review and Submit). |
 | `invalid_client` | Check `BOX_CLIENT_ID` / `BOX_CLIENT_SECRET` / `BOX_ENTERPRISE_ID` in `.env`. |
 | `404 Not Found` | Invite the Service Account as **Editor** on the Invoices Inbox folder (and on the file's parent if different). |
+| `409 Conflict on Metadata Instance` | The file already has the template. Current `metadata.py` upserts on 409 — pull the latest code. To retest from a clean slate, delete the instance from the file's **Metadata** tab or via `DELETE /2.0/files/:id/metadata/enterprise/:template`. |
 | `metadata_template must have both scope and template_key` | Set `BOX_METADATA_TEMPLATE_KEY` in `.env` to the key from the Admin Console. |
-| `ModuleNotFoundError` | Activate the venv: `source .venv/bin/activate`. |
+| `ModuleNotFoundError` | Activate the venv: `source .venv/bin/activate`. Install with `pip install -r requirements.txt` (uses `boxsdk~=10` only — do not also install `box-sdk-gen`). |
 | Extraction fails / AI errors | Confirm the **Manage AI** scope is enabled and the app was re-authorized after enabling it. Box AI must be available on the account. |
+
+## Related
+
+- Tutorial: [Automate invoice intake with Box AI Extract](https://developer.box.com/tutorials/invoice-intake)
+- TypeScript companion: [box-automate-invoice-intake-typescript](https://github.com/box-community/box-automate-invoice-intake-typescript)
 
 ## License
 
