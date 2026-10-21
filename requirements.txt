@@ -2,5 +2,5 @@
 # Install exactly one Box package — do not also install box-sdk-gen.
 # Both ship the box_sdk_gen module and conflict if installed together.
 boxsdk~=10.0
-Flask>=3.1.0
+Flask>=3.1.3
 python-dotenv>=1.0.0
