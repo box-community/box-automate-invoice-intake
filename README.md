@@ -206,7 +206,7 @@ before processing.
 | `404 Not Found` | Invite the Service Account as **Editor** on the Invoices Inbox folder (and on the file's parent if different). |
 | `409 Conflict on Metadata Instance` | The file already has the template. Current `metadata.py` upserts on 409 — pull the latest code. To retest from a clean slate, delete the instance from the file's **Metadata** tab or via `DELETE /2.0/files/:id/metadata/enterprise/:template`. |
 | `metadata_template must have both scope and template_key` | Set `BOX_METADATA_TEMPLATE_KEY` in `.env` to the key from the Admin Console. |
-| `ModuleNotFoundError` | Activate the venv: `source .venv/bin/activate`. Install with `pip install -r requirements.txt` (uses `boxsdk~=10` only — do not also install `box-sdk-gen`). |
+| `ModuleNotFoundError` | Activate the venv: `source .venv/bin/activate`. Install with `pip install -r requirements.txt` (uses `boxsdk~=10.0` only — do not also install `box-sdk-gen`). |
 | Extraction fails / AI errors | Confirm the **Manage AI** scope is enabled and the app was re-authorized after enabling it. Box AI must be available on the account. |
 
 ## Related
