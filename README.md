@@ -89,7 +89,7 @@ box-automate-invoice-intake/
 
    **Critical:** invite the app's Service Account as an **Editor** on that
    folder. Find the Service Account email in Developer Console > your app >
-   **General Settings** > **Service Account ID** (looks like
+   **Configuration** tab > **App Details** sidebar > **Service Account ID** (looks like
    `AutomationUser_xxxxx_xxxxxx@boxdevedition.com`). Without this collaboration,
    API calls return `404 Not Found`.
 
